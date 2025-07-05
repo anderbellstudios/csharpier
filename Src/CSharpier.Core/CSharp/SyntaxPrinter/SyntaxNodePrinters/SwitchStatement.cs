@@ -3,10 +3,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CSharpier.Core.CSharp.SyntaxPrinter.SyntaxNodePrinters;
 
-internal static class SwitchStatement
-{
-    public static Doc Print(SwitchStatementSyntax node, PrintingContext context)
-    {
+internal static class SwitchStatement {
+    public static Doc Print(SwitchStatementSyntax node, PrintingContext context) {
         var sections =
             node.Sections.Count == 0
                 ? " "
@@ -40,7 +38,7 @@ internal static class SwitchStatement
                     Doc.SoftLine
                 ),
                 Token.Print(node.CloseParenToken, context),
-                node.Sections.Count == 0 ? " " : Doc.Line,
+                " ",
                 Token.Print(node.OpenBraceToken, context),
                 sections,
                 Token.Print(node.CloseBraceToken, context)

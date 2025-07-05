@@ -3,10 +3,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CSharpier.Core.CSharp.SyntaxPrinter.SyntaxNodePrinters;
 
-internal static class ObjectCreationExpression
-{
-    public static Doc Print(ObjectCreationExpressionSyntax node, PrintingContext context)
-    {
+internal static class ObjectCreationExpression {
+    public static Doc Print(ObjectCreationExpressionSyntax node, PrintingContext context) {
         return BreakParentIfNested(
             node,
             Doc.Group(
@@ -23,21 +21,22 @@ internal static class ObjectCreationExpression
                     )
                     : Doc.Null,
                 node.Initializer != null
-                    ? Doc.Concat(Doc.Line, InitializerExpression.Print(node.Initializer, context))
+                    ? Doc.Concat(
+                        " " /* Doc.Line */
+                        ,
+                        InitializerExpression.Print(node.Initializer, context)
+                    )
                     : Doc.Null
             )
         );
     }
 
-    public static Doc BreakParentIfNested(BaseObjectCreationExpressionSyntax node, Doc doc)
-    {
+    public static Doc BreakParentIfNested(BaseObjectCreationExpressionSyntax node, Doc doc) {
         InitializerExpressionSyntax? parentInitializerExpressionSyntax = null;
-        if (node.Parent is InitializerExpressionSyntax i1)
-        {
+        if (node.Parent is InitializerExpressionSyntax i1) {
             parentInitializerExpressionSyntax = i1;
         }
-        else if (node.Parent?.Parent is InitializerExpressionSyntax i2)
-        {
+        else if (node.Parent?.Parent is InitializerExpressionSyntax i2) {
             parentInitializerExpressionSyntax = i2;
         }
 
