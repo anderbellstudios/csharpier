@@ -3,36 +3,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CSharpier.Core.CSharp.SyntaxPrinter.SyntaxNodePrinters;
 
-internal static class CollectionExpression
-{
-    public static Doc Print(CollectionExpressionSyntax node, PrintingContext context)
-    {
-        Doc separator = node.Parent
-            is ArgumentSyntax { NameColon: null }
-                or AttributeArgumentSyntax
-                or ArrowExpressionClauseSyntax
-                or CastExpressionSyntax
-                or ExpressionElementSyntax
-                or InitializerExpressionSyntax
-                or SimpleLambdaExpressionSyntax
-                or AssignmentExpressionSyntax
-                {
-                    Parent: not (
-                        ObjectCreationExpressionSyntax
-                        or InitializerExpressionSyntax
-                        or ExpressionStatementSyntax
-                    )
-                }
-                or EqualsValueClauseSyntax { Parent: not VariableDeclaratorSyntax }
-            ? Doc.Null
-            : Doc.IfBreak(Doc.Line, Doc.Null);
-
+internal static class CollectionExpression {
+    public static Doc Print(CollectionExpressionSyntax node, PrintingContext context) {
         var alwaysBreak =
             node.Elements.FirstOrDefault()
                 is ExpressionElementSyntax { Expression: CollectionExpressionSyntax };
 
         var result = Doc.Concat(
-            separator,
             Token.Print(node.OpenBracketToken, context),
             node.Elements.Any()
                 ? Doc.Indent(

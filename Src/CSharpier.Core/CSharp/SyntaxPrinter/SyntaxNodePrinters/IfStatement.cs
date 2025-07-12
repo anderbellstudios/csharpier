@@ -4,13 +4,10 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CSharpier.Core.CSharp.SyntaxPrinter.SyntaxNodePrinters;
 
-internal static class IfStatement
-{
-    public static Doc Print(IfStatementSyntax node, PrintingContext context)
-    {
+internal static class IfStatement {
+    public static Doc Print(IfStatementSyntax node, PrintingContext context) {
         var docs = new ValueListBuilder<Doc>([null, null, null, null, null, null, null, null]);
-        if (node.Parent is not ElseClauseSyntax)
-        {
+        if (node.Parent is not ElseClauseSyntax) {
             docs.Append(ExtraNewLines.Print(node));
         }
 
@@ -29,9 +26,8 @@ internal static class IfStatement
             OptionalBraces.Print(node.Statement, context)
         );
 
-        if (node.Else != null)
-        {
-            docs.Append(Doc.HardLine, Node.Print(node.Else, context));
+        if (node.Else != null) {
+            docs.Append(" ", Node.Print(node.Else, context));
         }
 
         return Doc.Concat(ref docs);

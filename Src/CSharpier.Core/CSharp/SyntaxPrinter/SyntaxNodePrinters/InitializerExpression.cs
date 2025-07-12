@@ -11,7 +11,7 @@ internal static class InitializerExpression
         Doc separator = node.Parent
             is AssignmentExpressionSyntax
                 or EqualsValueClauseSyntax { Parent: not PropertyDeclarationSyntax }
-            ? Doc.Line
+            ? " " // Doc.Line
             : Doc.Null;
 
         var alwaysBreak =

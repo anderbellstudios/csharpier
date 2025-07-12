@@ -1,27 +1,31 @@
-![CSharpier](./banner.svg)
-
-CSharpier is an opinionated code formatter for c# and XML. It parses your code and re-prints it using its own rules. 
-The printing process was ported from [prettier](https://github.com/prettier/prettier) but has evolved over time.
-
-CSharpier provides a few basic options that affect formatting and has no plans to add more. It follows the [Option Philosophy](https://prettier.io/docs/en/option-philosophy.html) of prettier.
+Fork of the [CSharpier](https://github.com/belav/csharpier) project with the K&R Style (opening brace on the same line, rather than on the next line).
 
 ### Quick Start
-Install CSharpier globally using the following command.
+Unfortunately you'll have to compile this by yourself. With dotnet SDK set up, it shouldn't be too hard.
+
 ```bash
-dotnet tool install csharpier -g
-```
-Then format the contents of a directory and its children with the following command.
-```bash
-csharpier format .
+dotnet pack ./Src/CSharpier.Cli/CSharpier.Cli.csproj -c Release -o dist
 ```
 
-CSharpier can also format [on save in your editor](https://csharpier.com/docs/Editors) or as a [pre-commit hook](https://csharpier.com/docs/Pre-commit). Then you can ensure code was formatted with a [CI/CD tool](https://csharpier.com/docs/ContinuousIntegration).
+Your binaries should be available in `Src/CSharpier.Cli/bin/Release/net8.0` (and `net9.0`)
 
----
+Running `CSharpier.exe format .` formats a whole dir.
 
-[Read the documentation](https://csharpier.com)    
-  
-[Try it out](https://playground.csharpier.com)
+### VSCode (format on save)
+After compiling your own binary, install the `vehmloewff.custom-format` extension (which allows you to run any command to format code)
+```jsonc
+    "custom-format.formatters": [
+        {
+            "language": "csharp",
+            "command": "path/to/CSharpier.exe format"
+        },
+    ],
+    "[csharp]": {
+        "editor.rulers": [ 100 ],
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "Vehmloewff.custom-format",
+    },
+```
 
 ---
 
@@ -34,7 +38,20 @@ public class ClassName {
 }
 ```
 
-### After
+### After (this fork)
+```c#
+public class ClassName {
+    public void CallMethod() {
+        this.LongUglyMethod(
+            "1234567890",
+            "abcdefghijklmnopqrstuvwxyz",
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        );
+    }
+}
+```
+
+### After (original CSharpier)
 ```c#
 public class ClassName
 {

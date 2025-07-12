@@ -29,10 +29,7 @@ internal static class ParenthesizedLambdaExpression
     {
         if (node.Body is BlockSyntax block)
         {
-            return Doc.Concat(
-                block.Statements.Count > 0 ? Doc.HardLine : " ",
-                Block.Print(block, context)
-            );
+            return Doc.Concat(" ", Block.Print(block, context));
         }
 
         var body = Node.Print(node.Body, context);
